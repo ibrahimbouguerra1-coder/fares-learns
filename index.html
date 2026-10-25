@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Fares | منصة فارس لتعليم الإنجليزية</title>
+    <meta name="description" content="منصة فارس التعليمية الشاملة لإتقان اللغة الإنجليزية من الصفر A0 حتى الاحتراف C2 مع مدرب الذكاء الاصطناعي والصوتيات." />
+    <meta property="og:title" content="Fares | منصة فارس لتعليم الإنجليزية" />
+    <meta property="og:description" content="منصة فارس التعليمية الشاملة لإتقان اللغة الإنجليزية من الصفر A0 حتى الاحتراف C2 مع مدرب الذكاء الاصطناعي والصوتيات." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0284c7" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Fares فارس" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      // Gracefully prevent and ignore Vite WebSocket HMR disconnects in cloud preview environments
+      (function() {
+        if (typeof window === 'undefined') return;
+
+        // 1. Intercept Vite HMR WebSocket so it stays simulated OPEN and never rejects
+        var RealWebSocket = window.WebSocket;
+        if (RealWebSocket) {
+          function FakeViteWebSocket(url, protocols) {
+            var self = this;
+            this.url = url;
+            this.protocols = protocols;
+            this.readyState = 1; // WebSocket.OPEN
+            this.CONNECTING = 0;
+            this.OPEN = 1;
+            this.CLOSING = 2;
+            this.CLOSED = 3;
+            this.listeners = {};
+
+            this.addEventListener = function(type, fn) {
+              if (!self.listeners[type]) self.listeners[type] = [];
+              self.listeners[type].push(fn);
+              if (type === 'open') {
+                setTimeout(function() {
+                  try { fn({ type: 'open', target: self }); } catch(e) {}
+                }, 0);
+              }
+            };
+
+            this.removeEventListener = function(type, fn) {
+              if (!self.listeners[type]) return;
+              self.listeners[type] = self.listeners[type].filter(function(f) { return f !== fn; });
+            };
+
+            this.send = function() {};
+            this.close = function() {
+              self.readyState = 3;
+            };
+          }
+
+          FakeViteWebSocket.CONNECTING = 0;
+          FakeViteWebSocket.OPEN = 1;
+          FakeViteWebSocket.CLOSING = 2;
+          FakeViteWebSocket.CLOSED = 3;
+
+          function WebSocketProxy(url, protocols) {
+            var isVite = (protocols === 'vite-hmr') ||
+                         (typeof url === 'string' && (url.indexOf('token=') !== -1 || url.indexOf('vite') !== -1));
+            if (isVite) {
+              return new FakeViteWebSocket(url, protocols);
+            }
+            return new RealWebSocket(url, protocols);
+          }
+
+          WebSocketProxy.CONNECTING = 0;
+          WebSocketProxy.OPEN = 1;
+          WebSocketProxy.CLOSING = 2;
+          WebSocketProxy.CLOSED = 3;
+          WebSocketProxy.prototype = RealWebSocket.prototype;
+
+          window.WebSocket = WebSocketProxy;
+        }
+
+        // 2. Filter any residual console.error from @vite/client
+        var origError = console.error;
+        console.error = function() {
+          var str = arguments[0] ? String(arguments[0]) : '';
+          if (str.indexOf('WebSocket') !== -1 || str.indexOf('closed without opened') !== -1) {
+            return;
+          }
+          origError.apply(console, arguments);
+        };
+
+        // 3. Catch window errors & unhandled promise rejections for WebSockets
+        window.addEventListener('error', function (e) {
+          var msg = (e && e.message) ? e.message : (e && e.error && e.error.message) ? e.error.message : '';
+          if (msg.indexOf('WebSocket') !== -1 || msg.indexOf('closed without opened') !== -1) {
+            e.preventDefault && e.preventDefault();
+            e.stopImmediatePropagation && e.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+        window.addEventListener('unhandledrejection', function (e) {
+          var msg = (e && e.reason) ? (e.reason.message || String(e.reason)) : '';
+          if (msg.indexOf('WebSocket') !== -1 || msg.indexOf('closed without opened') !== -1) {
+            e.preventDefault && e.preventDefault();
+            e.stopImmediatePropagation && e.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-sky-200 selection:text-sky-900 font-sans min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
